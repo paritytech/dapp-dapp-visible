@@ -15,10 +15,10 @@
   "scripts": {
     "build": "NODE_ENV=production webpack --colors --progress",
     "lint": "npm run lint:css && npm run lint:js",
-    "test": "echo \"WARN: npm run test skipped\"",
-    "watch": "webpack --colors --progress --watch",
     "lint:css": "stylelint ./src/**/*.css",
-    "lint:js": "eslint --ignore-path .gitignore ./src/"
+    "lint:js": "eslint --ignore-path .gitignore ./src/",
+    "test": "echo \"WARN: npm run test skipped\"",
+    "watch": "webpack --colors --progress --watch"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
