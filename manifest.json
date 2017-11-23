@@ -4,6 +4,6 @@
   "description": "Allow setting of dapp permissions on a per method level",
   "author": "Parity Team <admin@parity.io>",
   "version": "2.0.0",
-  "iconUrl": "icon.png",
+  "iconUrl": "icon.svg",
   "localUrl": "http://localhost:3001"
 }
