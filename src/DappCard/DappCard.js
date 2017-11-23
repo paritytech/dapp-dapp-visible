@@ -17,7 +17,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'semantic-ui-react/dist/commonjs/views/Card';
-import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import DappIcon from '@parity/ui/lib/DappIcon';
 import { FormattedMessage } from 'react-intl';
