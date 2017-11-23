@@ -45,7 +45,7 @@ class App extends Component {
     return (
       <div className={styles.sectionList}>
         <Header as="h4">{title}</Header>
-        <div>{subtitle}</div>
+        {subtitle}
         <Card.Group stackable className={styles.cardGroup}>
           {items.map((dapp, index) => (
             <DappCard
@@ -62,7 +62,6 @@ class App extends Component {
 
   render() {
     const { store } = this.props;
-    console.log(store.apps);
     return (
       <div className={styles.layout}>
         <ActionBar

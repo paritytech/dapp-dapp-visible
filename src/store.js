@@ -62,12 +62,14 @@ export default class Store {
       this._api.shell.getApps(true),
       this._api.shell.getApps(false)
     ]).then(([all, displayed]) => {
-      this.setDisplayApps(
-        displayed.reduce((result, { id }) => {
-          result[id] = true;
-          return result;
-        }, {})
-      );
+      if (displayed) {
+        this.setDisplayApps(
+          displayed.reduce((result, { id }) => {
+            result[id] = true;
+            return result;
+          }, {})
+        );
+      }
       this.setApps(all);
     });
   }

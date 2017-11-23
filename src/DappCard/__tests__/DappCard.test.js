@@ -17,61 +17,36 @@
 import React from 'react';
 import { shallowToJson } from 'enzyme-to-json';
 
-import { shallowWithIntl, mountWithIntl } from '../../setupTests';
+import { shallowWithIntl } from '../../setupTests';
 import DappCard from '../DappCard';
 
+// Mock props
 const props = {
   dapp: {
     id: '123',
     name: 'Test'
   },
-  methodGroups: { shell: { methods: ['foo', 'bar'] } },
-  permissions: { 'foo:123': true },
-  onEdit: () => {},
-  onToggle: () => {}
+  visible: false,
+  onClick: () => {}
 };
 
-test('should render correctly in viewing mode', () => {
+test('should render correctly in when visible', () => {
   const component = shallowWithIntl(<DappCard {...props} />);
 
   expect(shallowToJson(component)).toMatchSnapshot();
 });
 
-test('should render correctly in viewing mode with no allowed methods', () => {
-  const component = shallowWithIntl(<DappCard {...props} permissions={{}} />);
+test('should render correctly in when hidden', () => {
+  const component = shallowWithIntl(<DappCard {...props} visible />);
 
   expect(shallowToJson(component)).toMatchSnapshot();
 });
 
-test('should render correctly in editing mode', () => {
-  const component = shallowWithIntl(<DappCard {...props} editingMode />);
+test('should handle onClick on card click', () => {
+  const onClick = jest.fn();
 
-  expect(shallowToJson(component)).toMatchSnapshot();
-});
+  const component = shallowWithIntl(<DappCard {...props} onClick={onClick} />);
 
-test('should handle onEdit button click', () => {
-  const onEdit = jest.fn();
-
-  const component = shallowWithIntl(<DappCard {...props} onEdit={onEdit} />);
-
-  component
-    .find(Button)
-    .last()
-    .simulate('click');
-  expect(onEdit).toHaveBeenCalled();
-});
-
-test('should handle onToggle click', () => {
-  const onToggle = jest.fn();
-
-  const component = mountWithIntl(
-    <DappCard {...props} editingMode onToggle={onToggle} />
-  );
-
-  component
-    .find(List.Item)
-    .last() // The 'bar' one
-    .simulate('click');
-
-  expect(onToggle).toHaveBeenCalledWith('bar', '123');
+  component.simulate('click');
+  expect(onClick).toHaveBeenCalled();
 });

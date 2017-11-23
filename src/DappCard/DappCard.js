@@ -36,7 +36,7 @@ class DappCard extends PureComponent {
     const { dapp, visible, onClick } = this.props;
 
     return (
-      <Card className={!visible && styles.hidden} onClick={onClick}>
+      <Card className={!visible ? styles.hidden : ''} onClick={onClick}>
         <Card.Content>
           <Image src={dapp.image} className={styles.picture} centered />
           <Card.Header>{dapp.name}</Card.Header>

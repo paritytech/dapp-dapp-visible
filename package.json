@@ -23,7 +23,9 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!<rootDir>/node_modules/",
-      "!src/registerServiceWorker.js"
+      "!src/index.js",
+      "!src/registerServiceWorker.js",
+      "!src/setupTests.js"
     ]
   },
   "keywords": [],
