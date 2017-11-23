@@ -18,6 +18,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'semantic-ui-react/dist/commonjs/views/Card';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
+import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
+import { FormattedMessage } from 'react-intl';
 
 import styles from './DappCard.css';
 
@@ -38,6 +40,14 @@ class DappCard extends PureComponent {
     return (
       <Card className={!visible ? styles.hidden : ''} onClick={onClick}>
         <Card.Content>
+          {!visible && (
+            <Label attached="top right">
+              <FormattedMessage
+                id="dapp.visible.hiddenLabel"
+                defaultMessage="Hidden"
+              />
+            </Label>
+          )}
           <Image src={dapp.image} className={styles.picture} centered />
           <Card.Header>{dapp.name}</Card.Header>
           <Card.Meta>{dapp.description}</Card.Meta>

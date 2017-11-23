@@ -24,6 +24,15 @@ exports[`should render correctly in when visible 1`] = `
   onClick={[Function]}
 >
   <CardContent>
+    <Label
+      attached="top right"
+    >
+      <FormattedMessage
+        defaultMessage="Hidden"
+        id="dapp.visible.hiddenLabel"
+        values={Object {}}
+      />
+    </Label>
     <Image
       as="img"
       centered={true}

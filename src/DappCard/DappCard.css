@@ -27,3 +27,7 @@
 :local(.hidden) {
   opacity: 0.3;
 }
+
+:local(.hidden) .content {
+  margin-top: -28px !important;
+}
