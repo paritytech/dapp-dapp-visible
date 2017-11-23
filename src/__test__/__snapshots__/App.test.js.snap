@@ -2,15 +2,13 @@
 
 exports[`should render correctly 1`] = `
 <div>
-  <Actionbar
-    title={
-      <FormattedMessage
-        defaultMessage="Visible Dapps"
-        id="dapps.visible.title"
-        values={Object {}}
-      />
-    }
-  />
+  <h3>
+    <FormattedMessage
+      defaultMessage="Visible Dapps"
+      id="dapps.visible.title"
+      values={Object {}}
+    />
+  </h3>
   <div>
     <Header
       as="h4"

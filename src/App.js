@@ -21,7 +21,6 @@ import { FormattedMessage } from 'react-intl';
 
 import Card from 'semantic-ui-react/dist/commonjs/views/Card';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
-import ActionBar from '@parity/ui/lib/Actionbar/actionbar';
 
 import DappCard from './DappCard';
 import styles from './App.css';
@@ -64,14 +63,12 @@ class App extends Component {
     const { store } = this.props;
     return (
       <div className={styles.layout}>
-        <ActionBar
-          title={
-            <FormattedMessage
-              id="dapps.visible.title"
-              defaultMessage="Visible Dapps"
-            />
-          }
-        />
+        <h3>
+          <FormattedMessage
+            id="dapps.visible.title"
+            defaultMessage="Visible Dapps"
+          />
+        </h3>
         {this.renderList(
           <FormattedMessage
             id="dapps.visible.local.sectionTitle"
