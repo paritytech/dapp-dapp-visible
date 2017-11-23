@@ -1,8 +1,9 @@
 {
-  "id": "dapp-dapp-visible",
-  "name": "dapp-dapp-visible",
-  "description": "Dapp for Parity",
+  "id": "dapp-dapp-vibible",
+  "name": "Dapp Visibility",
+  "description": "Allow setting of dapp permissions on a per method level",
   "author": "Parity Team <admin@parity.io>",
-  "version": "1.99.99",
-  "iconUrl": ""
+  "version": "2.0.0",
+  "iconUrl": "icon.png",
+  "localUrl": "http://localhost:3001"
 }

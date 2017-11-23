@@ -16,24 +16,23 @@
 
 import ReactDOM from 'react-dom';
 import React from 'react';
-import { Route, Router, hashHistory } from 'react-router';
-
 import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
-
-import { initStore } from '@parity/shared/lib/redux';
-import ContextProvider from '@parity/ui/lib/ContextProvider';
+import { IntlProvider } from 'react-intl';
 
 import api from './api';
-import DappVisible from './dappVisible';
+import App from './App';
+import Store from './store';
+import registerServiceWorker from './registerServiceWorker';
+import 'semantic-ui-css/semantic.min.css';
 
-const store = initStore(api, hashHistory);
+injectTapEventPlugin();
+registerServiceWorker();
+
+const store = new Store(api);
 
 ReactDOM.render(
-  <ContextProvider api={ api } store={ store }>
-    <Router history={ hashHistory }>
-      <Route path='/' component={ DappVisible } />
-    </Router>
-  </ContextProvider>,
-  document.querySelector('#container')
+  <IntlProvider locale="en">
+    <App store={store} />
+  </IntlProvider>,
+  document.querySelector('#root')
 );

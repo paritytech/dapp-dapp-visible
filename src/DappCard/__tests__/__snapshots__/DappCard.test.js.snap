@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly in editing mode 1`] = `
+<Card>
+  <CardContent>
+    <Button
+      as="button"
+      basic={true}
+      floated="right"
+      icon="remove"
+      onClick={[Function]}
+      size="mini"
+    />
+    <Image
+      as="img"
+      centered={true}
+      ui={true}
+    />
+    <CardHeader>
+      Test
+    </CardHeader>
+    <CardMeta />
+    <CardDescription>
+      <Accordion
+        panels={
+          Array [
+            Object {
+              "content": Object {
+                "active": true,
+                "content": <List
+                  className={undefined}
+          >
+                  <ListItem
+                          className={undefined}
+                          onClick={[Function]}
+                  >
+                          <ListIcon
+                                  name="checkmark box"
+                          />
+                          foo
+                  </ListItem>
+                  <ListItem
+                          className={undefined}
+                          onClick={[Function]}
+                  >
+                          <ListIcon
+                                  name="square outline"
+                          />
+                          bar
+                  </ListItem>
+          </List>,
+                "key": "123-shell-editing-content",
+              },
+              "title": Object {
+                "active": true,
+                "content": <FormattedMessage
+                  defaultMessage="Can get access to the Shell"
+                  description="Explanation of the shell methodGroup permission"
+                  id="dapp.methods.shell"
+                  values={Object {}}
+          />,
+                "key": "123-shell-editing-title",
+              },
+            },
+          ]
+        }
+      />
+    </CardDescription>
+  </CardContent>
+</Card>
+`;
+
+exports[`should render correctly in viewing mode 1`] = `
+<Card>
+  <CardContent>
+    <Button
+      as="button"
+      basic={true}
+      floated="right"
+      icon="edit"
+      onClick={[Function]}
+      size="mini"
+    />
+    <Image
+      as="img"
+      centered={true}
+      ui={true}
+    />
+    <CardHeader>
+      Test
+    </CardHeader>
+    <CardMeta />
+    <CardDescription>
+      <Accordion
+        panels={
+          Array [
+            Object {
+              "content": Object {
+                "content": <List
+                  bulleted={true}
+                  className={undefined}
+          >
+                  <ListItem>
+                          foo
+                  </ListItem>
+          </List>,
+                "key": "123-shell-content",
+              },
+              "title": Object {
+                "content": <FormattedMessage
+                  defaultMessage="Can get access to the Shell"
+                  description="Explanation of the shell methodGroup permission"
+                  id="dapp.methods.shell"
+                  values={Object {}}
+          />,
+                "key": "123-shell-title",
+              },
+            },
+          ]
+        }
+      />
+    </CardDescription>
+  </CardContent>
+</Card>
+`;
+
+exports[`should render correctly in viewing mode with no allowed methods 1`] = `
+<Card>
+  <CardContent>
+    <Button
+      as="button"
+      basic={true}
+      floated="right"
+      icon="edit"
+      onClick={[Function]}
+      size="mini"
+    />
+    <Image
+      as="img"
+      centered={true}
+      ui={true}
+    />
+    <CardHeader>
+      Test
+    </CardHeader>
+    <CardMeta />
+    <CardDescription>
+      <div>
+        <FormattedMessage
+          defaultMessage="No allowed methods"
+          id="dapps.methods.noAllowedMethods"
+          values={Object {}}
+        />
+      </div>
+    </CardDescription>
+  </CardContent>
+</Card>
+`;
