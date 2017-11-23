@@ -19,6 +19,7 @@ import PropTypes from 'prop-types';
 import Card from 'semantic-ui-react/dist/commonjs/views/Card';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
+import DappIcon from '@parity/ui/lib/DappIcon';
 import { FormattedMessage } from 'react-intl';
 
 import styles from './DappCard.css';
@@ -31,7 +32,7 @@ class DappCard extends PureComponent {
       image: PropTypes.string
     }).isRequired,
     onClick: PropTypes.func.isRequired,
-    visible: PropTypes.bool.isRequired
+    visible: PropTypes.bool
   };
 
   render() {
@@ -48,7 +49,10 @@ class DappCard extends PureComponent {
               />
             </Label>
           )}
-          <Image src={dapp.image} className={styles.picture} centered />
+          <DappIcon
+            app={dapp}
+            className={`ui centered image ${styles.picture}`}
+          />
           <Card.Header>{dapp.name}</Card.Header>
           <Card.Meta>{dapp.description}</Card.Meta>
         </Card.Content>

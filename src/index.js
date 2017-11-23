@@ -18,6 +18,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { IntlProvider } from 'react-intl';
+import ContextProvider from '@parity/ui/lib/ContextProvider';
 
 import api from './api';
 import App from './App';
@@ -31,8 +32,10 @@ registerServiceWorker();
 const store = new Store(api);
 
 ReactDOM.render(
-  <IntlProvider locale="en">
-    <App store={store} />
-  </IntlProvider>,
+  <ContextProvider api={api}>
+    <IntlProvider locale="en">
+      <App store={store} />
+    </IntlProvider>
+  </ContextProvider>,
   document.querySelector('#root')
 );
