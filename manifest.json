@@ -1,9 +1,9 @@
 {
   "id": "dapp-dapp-vibible",
   "name": "Dapp Visibility",
-  "description": "Allow setting of dapp permissions on a per method level",
+  "description": "Allow customising the display of the list of applications",
   "author": "Parity Team <admin@parity.io>",
-  "version": "2.0.0",
-  "iconUrl": "icon.svg",
+  "version": "VERSION",
+  "iconUrl": "icon.png",
   "localUrl": "http://localhost:3001"
 }
