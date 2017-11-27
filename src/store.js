@@ -14,88 +14,63 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import { action, computed, observable } from 'mobx';
+import { action, extendObservable } from 'mobx';
 
-export default class DappsStore {
-  @observable apps = [];
-  @observable displayApps = {};
-
-  _api = null;
-
-  constructor (api) {
+export default class Store {
+  constructor(api) {
     this._api = api;
+
+    // Using mobx without @observable decorators
+    extendObservable(this, {
+      apps: [],
+      displayApps: {},
+      // computed
+      get sortedLocal() {
+        return this.apps.filter(({ type }) => type === 'local');
+      },
+      get sortedBuiltin() {
+        return this.apps.filter(({ type }) => type === 'builtin');
+      },
+      get sortedNetwork() {
+        return this.apps.filter(({ type }) => type === 'network');
+      }
+    });
 
     this.loadApps();
   }
 
-  @computed get sortedBuiltin () {
-    return this.apps.filter((app) => app.type === 'builtin');
-  }
-
-  @computed get sortedLocal () {
-    return this.apps.filter((app) => app.type === 'local');
-  }
-
-  @computed get sortedNetwork () {
-    return this.apps.filter((app) => app.type === 'network');
-  }
-
-  @computed get visibleApps () {
-    return this.apps.filter((app) => this.displayApps[app.id] && this.displayApps[app.id].visible);
-  }
-
-  @computed get visibleBuiltin () {
-    return this.visibleApps.filter((app) => !app.noselect && app.type === 'builtin');
-  }
-
-  @computed get visibleLocal () {
-    return this.visibleApps.filter((app) => app.type === 'local');
-  }
-
-  @computed get visibleNetwork () {
-    return this.visibleApps.filter((app) => app.type === 'network');
-  }
-
-  @computed get visibleViews () {
-    return this.visibleApps.filter((app) => !app.noselect && app.type === 'view');
-  }
-
-  @action setApps = (apps) => {
+  setApps = action(apps => {
     this.apps = apps;
-  }
+  });
 
-  @action setDisplayApps = (displayApps) => {
-    this.displayApps = Object.assign({}, this.displayApps, displayApps);
-  };
+  setDisplayApps = action(displayApps => {
+    this.displayApps = displayApps;
+  });
 
-  @action hideApp = (id) => {
-    this.setDisplayApps({ [id]: { visible: false } });
-    this._api.shell.setAppVisibility(id, false);
-  }
+  hideApp = action(appId => {
+    this.displayApps = { ...this.displayApps, [appId]: false };
+    this._api.shell.setAppVisibility(appId, false);
+  });
 
-  @action showApp = (id) => {
-    this.setDisplayApps({ [id]: { visible: true } });
-    this._api.shell.setAppVisibility(id, true);
-  }
+  showApp = action(appId => {
+    this.displayApps = { ...this.displayApps, [appId]: true };
+    this._api.shell.setAppVisibility(appId, true);
+  });
 
-  getAppById = (id) => {
-    return this.apps.find((app) => app.id === id);
-  }
-
-  loadApps () {
-    return Promise
-      .all([
-        this._api.shell.getApps(true),
-        this._api.shell.getApps(false)
-      ])
-      .then(([all, displayed]) => {
+  loadApps() {
+    return Promise.all([
+      this._api.shell.getApps(true),
+      this._api.shell.getApps(false)
+    ]).then(([all, displayed]) => {
+      if (displayed) {
         this.setDisplayApps(
           displayed.reduce((result, { id }) => {
-            result[id] = { visible: true };
+            result[id] = true;
             return result;
           }, {})
         );
-        this.setApps(all);
-      });
+      }
+      this.setApps(all);
+    });
   }
 }

@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly in when hidden 1`] = `
+<Card
+  className=""
+  onClick={[Function]}
+>
+  <CardContent>
+    <DappIcon
+      app={
+        Object {
+          "id": "123",
+          "name": "Test",
+        }
+      }
+      className="ui centered image undefined"
+    />
+    <CardHeader>
+      Test
+    </CardHeader>
+    <CardMeta />
+  </CardContent>
+</Card>
+`;
+
+exports[`should render correctly in when visible 1`] = `
+<Card
+  onClick={[Function]}
+>
+  <CardContent>
+    <Label
+      attached="top right"
+    >
+      <FormattedMessage
+        defaultMessage="Hidden"
+        id="dapp.visible.hiddenLabel"
+        values={Object {}}
+      />
+    </Label>
+    <DappIcon
+      app={
+        Object {
+          "id": "123",
+          "name": "Test",
+        }
+      }
+      className="ui centered image undefined"
+    />
+    <CardHeader>
+      Test
+    </CardHeader>
+    <CardMeta />
+  </CardContent>
+</Card>
+`;

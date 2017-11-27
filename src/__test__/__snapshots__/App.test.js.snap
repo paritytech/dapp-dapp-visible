@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<div>
+  <h3>
+    <FormattedMessage
+      defaultMessage="Visible Dapps"
+      id="dapps.visible.title"
+      values={Object {}}
+    />
+  </h3>
+  <div>
+    <Header
+      as="h4"
+    >
+      <FormattedMessage
+        defaultMessage="Applications locally available"
+        id="dapps.visible.local.sectionTitle"
+        values={Object {}}
+      />
+    </Header>
+    <FormattedMessage
+      defaultMessage="All applications installed locally on the machine by the user for access by the Parity client."
+      id="dapps.visible.local.sectionSubtitle"
+      values={Object {}}
+    />
+    <CardGroup
+      stackable={true}
+    >
+      <DappCard
+        dapp={
+          Object {
+            "id": "123",
+            "name": "123",
+            "type": "local",
+          }
+        }
+        key="0"
+        onClick={[Function]}
+        visible={false}
+      />
+    </CardGroup>
+  </div>
+  <div>
+    <Header
+      as="h4"
+    >
+      <FormattedMessage
+        defaultMessage="Applications on the global network"
+        id="dapps.visible.network.sectionTitle"
+        values={Object {}}
+      />
+    </Header>
+    <FormattedMessage
+      defaultMessage="These applications are not affiliated with Parity nor are they published by Parity. Each remain under the control of their respective authors. Please ensure that you understand the goals for each application before interacting."
+      id="dapps.visible.network.sectionSubtitle"
+      values={Object {}}
+    />
+    <CardGroup
+      stackable={true}
+    >
+      <DappCard
+        dapp={
+          Object {
+            "id": "456",
+            "name": "456",
+            "type": "network",
+          }
+        }
+        key="0"
+        onClick={[Function]}
+        visible={true}
+      />
+    </CardGroup>
+  </div>
+</div>
+`;
