@@ -1,14 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<div>
-  <h3>
+<Page
+  title={
     <FormattedMessage
       defaultMessage="Visible Dapps"
       id="dapps.visible.title"
       values={Object {}}
     />
-  </h3>
+  }
+>
   <div>
     <Header
       as="h4"
@@ -73,5 +74,5 @@ exports[`should render correctly 1`] = `
       />
     </CardGroup>
   </div>
-</div>
+</Page>
 `;
