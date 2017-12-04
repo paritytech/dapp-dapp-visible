@@ -19,6 +19,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
+import Page from '@parity/ui/lib/Page';
 import Card from 'semantic-ui-react/dist/commonjs/views/Card';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 
@@ -62,13 +63,14 @@ class App extends Component {
   render() {
     const { store } = this.props;
     return (
-      <div className={styles.layout}>
-        <h3>
+      <Page
+        title={
           <FormattedMessage
             id="dapps.visible.title"
             defaultMessage="Visible Dapps"
           />
-        </h3>
+        }
+      >
         {this.renderList(
           <FormattedMessage
             id="dapps.visible.local.sectionTitle"
@@ -102,7 +104,7 @@ class App extends Component {
           />,
           store.sortedNetwork
         )}
-      </div>
+      </Page>
     );
   }
 }
