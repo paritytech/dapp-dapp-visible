@@ -34,6 +34,7 @@ class DappCard extends PureComponent {
       image: PropTypes.string
     }).isRequired,
     onAdd: PropTypes.func.isRequired,
+    onOpen: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     visible: PropTypes.bool
   };
@@ -41,6 +42,8 @@ class DappCard extends PureComponent {
   handleAdd = () => this.props.onAdd(this.props.dapp.id);
 
   handleRemove = () => this.props.onRemove(this.props.dapp.id);
+
+  handleOpen = () => this.props.onOpen(this.props.dapp.id);
 
   render() {
     const { dapp, visible } = this.props;
@@ -71,13 +74,13 @@ class DappCard extends PureComponent {
                 />
               </Label>
             )}
-            {/* <DappVouchFor app={dapp} /> */}
+            {/* <DappVouchFor dapp={dapp} /> */}
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
           <Button
             basic
-            color="grey"
+            secondary
             content={
               <FormattedMessage
                 id="dapp.visible.openDapp"
@@ -85,6 +88,7 @@ class DappCard extends PureComponent {
               />
             }
             icon="external"
+            onClick={this.handleOpen}
           />
           {visible ? (
             <Button basic primary disabled>

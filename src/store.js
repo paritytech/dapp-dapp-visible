@@ -61,6 +61,10 @@ export default class Store {
     });
   });
 
+  loadApp = appId => {
+    this._api.shell.loadApp(appId);
+  };
+
   loadApps() {
     return Promise.all([
       this._api.shell.getApps(true),

@@ -97,6 +97,7 @@ class App extends Component {
                   }
                   onAdd={this.dappsStore.showApp}
                   onRemove={this.dappsStore.hideApp}
+                  onOpen={this.dappsStore.loadApp}
                 />
               ))}
           </Card.Group>
