@@ -20,16 +20,32 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import Page from '@parity/ui/lib/Page';
-import Card from 'semantic-ui-react/dist/commonjs/views/Card';
+import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid';
+import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
+import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
+import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
+import Card from 'semantic-ui-react/dist/commonjs/views/Card';
 
 import DappCard from './DappCard';
 import styles from './App.css';
 
+const ALL_DAPPS = 'ALL_DAPPS';
+const MY_DAPPS = 'MY_DAPPS';
+
 class App extends Component {
+  state = {
+    menu: ALL_DAPPS, // or MY_DAPPS
+    value: ''
+  };
+
+  handleMenuClick = (_, { name }) => this.setState({ menu: name });
+
+  handleSearch = (_, { value }) => this.setState({ value });
+
   handleToggleVisibility = dappId => {
     const { store } = this.props;
-    if (store.displayApps[dappId]) {
+    if (store.displayAppsMap[dappId]) {
       store.hideApp(dappId);
     } else {
       store.showApp(dappId);
@@ -43,18 +59,35 @@ class App extends Component {
     }
 
     return (
-      <div className={styles.sectionList}>
+      <div>
         <Header as="h4">{title}</Header>
         {subtitle}
+        <br />
+        <Input
+          fluid
+          iconPosition="left"
+          icon="search"
+          placeholder="Search for dapps by name, description..."
+          className={styles.search}
+          onChange={this.handleSearch}
+        />
         <Card.Group stackable className={styles.cardGroup}>
-          {items.map((dapp, index) => (
-            <DappCard
-              key={index}
-              dapp={dapp}
-              visible={store.displayApps[dapp.id]}
-              onClick={() => this.handleToggleVisibility(dapp.id)}
-            />
-          ))}
+          {items
+            .filter(
+              ({ name, description }) =>
+                this.state.value
+                  ? name.includes(this.state.value) ||
+                    description.includes(this.state.value)
+                  : true
+            )
+            .map((dapp, index) => (
+              <DappCard
+                key={index}
+                dapp={dapp}
+                added={store.displayAppsMap[dapp.id]}
+                onClick={() => this.handleToggleVisibility(dapp.id)}
+              />
+            ))}
         </Card.Group>
       </div>
     );
@@ -62,48 +95,64 @@ class App extends Component {
 
   render() {
     const { store } = this.props;
+
     return (
       <Page
         title={
           <FormattedMessage
             id="dapps.visible.title"
-            defaultMessage="Visible Dapps"
+            defaultMessage="Browse Dapps"
           />
         }
       >
-        {this.renderList(
-          <FormattedMessage
-            id="dapps.visible.local.sectionTitle"
-            defaultMessage="Applications locally available"
-          />,
-          <FormattedMessage
-            id="dapps.visible.local.sectionSubtitle"
-            defaultMessage="All applications installed locally on the machine by the user for access by the Parity client."
-          />,
-          store.sortedLocal
-        )}
-        {this.renderList(
-          <FormattedMessage
-            id="dapps.visible.builtin.sectionTitle"
-            defaultMessage="Applications bundled with Parity"
-          />,
-          <FormattedMessage
-            id="dapps.visible.builtin.sectionSubtitle"
-            defaultMessage="Experimental applications developed by the Parity team to show off dapp capabilities, integration, experimental features and to control certain network-wide client behaviour."
-          />,
-          store.sortedBuiltin
-        )}
-        {this.renderList(
-          <FormattedMessage
-            id="dapps.visible.network.sectionTitle"
-            defaultMessage="Applications on the global network"
-          />,
-          <FormattedMessage
-            id="dapps.visible.network.sectionSubtitle"
-            defaultMessage="These applications are not affiliated with Parity nor are they published by Parity. Each remain under the control of their respective authors. Please ensure that you understand the goals for each application before interacting."
-          />,
-          store.sortedNetwork
-        )}
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={4}>
+              <Menu pointing secondary vertical>
+                <Menu.Item
+                  name={ALL_DAPPS}
+                  active={this.state.menu === ALL_DAPPS}
+                  onClick={this.handleMenuClick}
+                >
+                  All Dapps
+                </Menu.Item>
+                <Menu.Item
+                  name={MY_DAPPS}
+                  active={this.state.menu === MY_DAPPS}
+                  onClick={this.handleMenuClick}
+                >
+                  My Dapps
+                  <Label>{store.displayApps.length}</Label>
+                </Menu.Item>
+              </Menu>
+            </Grid.Column>
+            <Grid.Column width={12}>
+              {this.state.menu === ALL_DAPPS
+                ? this.renderList(
+                    <FormattedMessage
+                      id="dapps.visible.local.sectionTitleAllDapps"
+                      defaultMessage="All available Dapps"
+                    />,
+                    <FormattedMessage
+                      id="dapps.visible.local.sectionSubtitleAllDapps"
+                      defaultMessage="Here are all available dapps for your Parity Client. You can add them on your homepage or try them out here."
+                    />,
+                    store.apps
+                  )
+                : this.renderList(
+                    <FormattedMessage
+                      id="dapps.visible.local.sectionTitleMyDapps"
+                      defaultMessage="My Applications"
+                    />,
+                    <FormattedMessage
+                      id="dapps.visible.local.sectionSubtitleMyDapps"
+                      defaultMessage="Here are all dapps added on your homepage for quick access."
+                    />,
+                    store.displayApps
+                  )}
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </Page>
     );
   }

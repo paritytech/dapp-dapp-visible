@@ -16,8 +16,11 @@
 */
 
 :local(.cardGroup) {
+  margin-top: 10px !important;
   display: flex;
   justify-content: center;
-  margin-top: 10px !important;
-  margin-bottom: 20px !important;
+}
+
+:local(.search) {
+  margin-top: 20px;
 }

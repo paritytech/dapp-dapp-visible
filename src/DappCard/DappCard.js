@@ -17,6 +17,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'semantic-ui-react/dist/commonjs/views/Card';
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import DappIcon from '@parity/ui/lib/DappIcon';
 import { FormattedMessage } from 'react-intl';
@@ -35,25 +37,51 @@ class DappCard extends PureComponent {
   };
 
   render() {
-    const { dapp, visible, onClick } = this.props;
+    const { dapp, added, onClick } = this.props;
 
     return (
-      <Card className={!visible ? styles.hidden : ''} onClick={onClick}>
+      <Card>
         <Card.Content>
-          {!visible && (
-            <Label attached="top right">
-              <FormattedMessage
-                id="dapp.visible.hiddenLabel"
-                defaultMessage="Hidden"
-              />
-            </Label>
-          )}
           <DappIcon
             app={dapp}
             className={`ui centered image ${styles.picture}`}
           />
           <Card.Header>{dapp.name}</Card.Header>
           <Card.Meta>{dapp.description}</Card.Meta>
+          <Card.Description>
+            {dapp.type === 'local' && (
+              <Label>
+                <FormattedMessage
+                  id="dapp.added.localLabel"
+                  defaultMessage="Local Dapp"
+                />
+              </Label>
+            )}
+            {dapp.type === 'builtin' && (
+              <Label>
+                <FormattedMessage
+                  id="dapp.added.builtinLabel"
+                  defaultMessage="By Parity"
+                />
+              </Label>
+            )}
+          </Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <Button basic content="Open" icon="external" />
+          {added ? (
+            <Button basic primary disabled>
+              <Icon name="check" />Added
+            </Button>
+          ) : (
+            <Button
+              primary
+              basic
+              content="Add to home"
+              icon="plus"
+              onClºick={onClick}
+            />
+          )}
         </Card.Content>
       </Card>
     );

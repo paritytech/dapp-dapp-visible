@@ -23,7 +23,7 @@ export default class Store {
     // Using mobx without @observable decorators
     extendObservable(this, {
       apps: [],
-      displayApps: {},
+      displayAppsMap: {},
       // computed
       get sortedLocal() {
         return this.apps.filter(({ type }) => type === 'local');
@@ -33,6 +33,9 @@ export default class Store {
       },
       get sortedNetwork() {
         return this.apps.filter(({ type }) => type === 'network');
+      },
+      get displayApps() {
+        return this.apps.filter(({ id }) => this.displayAppsMap[id]);
       }
     });
 
@@ -43,17 +46,17 @@ export default class Store {
     this.apps = apps;
   });
 
-  setDisplayApps = action(displayApps => {
-    this.displayApps = displayApps;
+  setdisplayAppsMap = action(displayAppsMap => {
+    this.displayAppsMap = displayAppsMap;
   });
 
   hideApp = action(appId => {
-    this.displayApps = { ...this.displayApps, [appId]: false };
+    this.displayAppsMap = { ...this.displayAppsMap, [appId]: false };
     this._api.shell.setAppVisibility(appId, false);
   });
 
   showApp = action(appId => {
-    this.displayApps = { ...this.displayApps, [appId]: true };
+    this.displayAppsMap = { ...this.displayAppsMap, [appId]: true };
     this._api.shell.setAppVisibility(appId, true);
   });
 
@@ -63,7 +66,7 @@ export default class Store {
       this._api.shell.getApps(false)
     ]).then(([all, displayed]) => {
       if (displayed) {
-        this.setDisplayApps(
+        this.setdisplayAppsMap(
           displayed.reduce((result, { id }) => {
             result[id] = true;
             return result;
