@@ -17,7 +17,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 import Page from '@parity/ui/lib/Page';
 import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid';
@@ -37,6 +37,10 @@ const MY_DAPPS = 'MY_DAPPS';
 class App extends Component {
   static contextTypes = {
     api: PropTypes.object.isRequired
+  };
+
+  static propTypes = {
+    intl: intlShape
   };
 
   state = {
@@ -59,6 +63,7 @@ class App extends Component {
   };
 
   renderList = (title, subtitle, items) => {
+    const { intl: { formatMessage } } = this.props;
     return (
       <div>
         <Header as="h4">{title}</Header>
@@ -68,12 +73,10 @@ class App extends Component {
           fluid
           iconPosition="left"
           icon="search"
-          placeholder={
-            <FormattedMessage
-              id="dapps.visible.search"
-              defaultMessage="Search for dapps by name, description..."
-            />
-          }
+          placeholder={formatMessage({
+            id: 'dapps.visible.search',
+            defaultMessage: 'Search for dapps by name, description...'
+          })}
           className={styles.search}
           onChange={this.handleSearch}
         />
@@ -169,4 +172,4 @@ class App extends Component {
   }
 }
 
-export default observer(App);
+export default injectIntl(observer(App));
