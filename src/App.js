@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import { observer } from 'mobx-react';
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -28,36 +28,37 @@ import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import Card from 'semantic-ui-react/dist/commonjs/views/Card';
 
 import DappCard from './DappCard';
+import DappsStore from './store';
 import styles from './App.css';
 
 const ALL_DAPPS = 'ALL_DAPPS';
 const MY_DAPPS = 'MY_DAPPS';
 
 class App extends Component {
+  static contextTypes = {
+    api: PropTypes.object.isRequired
+  };
+
   state = {
     menu: ALL_DAPPS, // or MY_DAPPS
     value: ''
   };
+
+  dappsStore = new DappsStore(this.context.api);
 
   handleMenuClick = (_, { name }) => this.setState({ menu: name });
 
   handleSearch = (_, { value }) => this.setState({ value });
 
   handleToggleVisibility = dappId => {
-    const { store } = this.props;
-    if (store.displayAppsMap[dappId]) {
-      store.hideApp(dappId);
+    if (this.dappsStore.displayApps[dappId]) {
+      this.dappsStore.hideApp(dappId);
     } else {
-      store.showApp(dappId);
+      this.dappsStore.showApp(dappId);
     }
   };
 
   renderList = (title, subtitle, items) => {
-    const { store } = this.props;
-    if (!items || !items.length) {
-      return null;
-    }
-
     return (
       <div>
         <Header as="h4">{title}</Header>
@@ -67,35 +68,44 @@ class App extends Component {
           fluid
           iconPosition="left"
           icon="search"
-          placeholder="Search for dapps by name, description..."
+          placeholder={
+            <FormattedMessage
+              id="dapps.visible.search"
+              defaultMessage="Search for dapps by name, description..."
+            />
+          }
           className={styles.search}
           onChange={this.handleSearch}
         />
-        <Card.Group stackable className={styles.cardGroup}>
-          {items
-            .filter(
-              ({ name, description }) =>
-                this.state.value
-                  ? name.includes(this.state.value) ||
-                    description.includes(this.state.value)
-                  : true
-            )
-            .map((dapp, index) => (
-              <DappCard
-                key={index}
-                dapp={dapp}
-                added={store.displayAppsMap[dapp.id]}
-                onClick={() => this.handleToggleVisibility(dapp.id)}
-              />
-            ))}
-        </Card.Group>
+        {items && (
+          <Card.Group stackable className={styles.cardGroup}>
+            {items
+              .filter(
+                ({ name, description }) =>
+                  this.state.value
+                    ? name.includes(this.state.value) ||
+                      description.includes(this.state.value)
+                    : true
+              )
+              .map((dapp, index) => (
+                <DappCard
+                  key={index}
+                  dapp={dapp}
+                  visible={
+                    this.dappsStore.displayApps[dapp.id] &&
+                    this.dappsStore.displayApps[dapp.id].visible
+                  }
+                  onAdd={this.dappsStore.showApp}
+                  onRemove={this.dappsStore.hideApp}
+                />
+              ))}
+          </Card.Group>
+        )}
       </div>
     );
   };
 
   render() {
-    const { store } = this.props;
-
     return (
       <Page
         title={
@@ -122,7 +132,7 @@ class App extends Component {
                   onClick={this.handleMenuClick}
                 >
                   My Dapps
-                  <Label>{store.displayApps.length}</Label>
+                  <Label>{this.dappsStore.visibleApps.length}</Label>
                 </Menu.Item>
               </Menu>
             </Grid.Column>
@@ -137,7 +147,7 @@ class App extends Component {
                       id="dapps.visible.local.sectionSubtitleAllDapps"
                       defaultMessage="Here are all available dapps for your Parity Client. You can add them on your homepage or try them out here."
                     />,
-                    store.apps
+                    this.dappsStore.apps
                   )
                 : this.renderList(
                     <FormattedMessage
@@ -146,9 +156,9 @@ class App extends Component {
                     />,
                     <FormattedMessage
                       id="dapps.visible.local.sectionSubtitleMyDapps"
-                      defaultMessage="Here are all dapps added on your homepage for quick access."
+                      defaultMessage="The dapps here are added on your homepage for quick access."
                     />,
-                    store.displayApps
+                    this.dappsStore.visibleApps
                   )}
             </Grid.Column>
           </Grid.Row>
@@ -159,7 +169,3 @@ class App extends Component {
 }
 
 export default observer(App);
-
-App.propTypes = {
-  store: PropTypes.object.isRequired
-};

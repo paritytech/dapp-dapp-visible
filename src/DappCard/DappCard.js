@@ -23,6 +23,7 @@ import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import DappIcon from '@parity/ui/lib/DappIcon';
 import { FormattedMessage } from 'react-intl';
 
+// import DappVouchFor from './DappVouchFor';
 import styles from './DappCard.css';
 
 class DappCard extends PureComponent {
@@ -32,12 +33,17 @@ class DappCard extends PureComponent {
       name: PropTypes.string.isRequired,
       image: PropTypes.string
     }).isRequired,
-    onClick: PropTypes.func.isRequired,
+    onAdd: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
     visible: PropTypes.bool
   };
 
+  handleAdd = () => this.props.onAdd(this.props.dapp.id);
+
+  handleRemove = () => this.props.onRemove(this.props.dapp.id);
+
   render() {
-    const { dapp, added, onClick } = this.props;
+    const { dapp, visible } = this.props;
 
     return (
       <Card>
@@ -52,7 +58,7 @@ class DappCard extends PureComponent {
             {dapp.type === 'local' && (
               <Label>
                 <FormattedMessage
-                  id="dapp.added.localLabel"
+                  id="dapp.visible.localLabel"
                   defaultMessage="Local Dapp"
                 />
               </Label>
@@ -60,16 +66,27 @@ class DappCard extends PureComponent {
             {dapp.type === 'builtin' && (
               <Label>
                 <FormattedMessage
-                  id="dapp.added.builtinLabel"
+                  id="dapp.visible.builtinLabel"
                   defaultMessage="By Parity"
                 />
               </Label>
             )}
+            {/* <DappVouchFor app={dapp} /> */}
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <Button basic content="Open" icon="external" />
-          {added ? (
+          <Button
+            basic
+            color="grey"
+            content={
+              <FormattedMessage
+                id="dapp.visible.openDapp"
+                defaultMessage="Open"
+              />
+            }
+            icon="external"
+          />
+          {visible ? (
             <Button basic primary disabled>
               <Icon name="check" />Added
             </Button>
@@ -79,9 +96,10 @@ class DappCard extends PureComponent {
               basic
               content="Add to home"
               icon="plus"
-              onClºick={onClick}
+              onClick={this.handleAdd}
             />
           )}
+          {visible && <Button icon="trash" basic onClick={this.handleRemove} />}
         </Card.Content>
       </Card>
     );

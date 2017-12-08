@@ -23,19 +23,12 @@ export default class Store {
     // Using mobx without @observable decorators
     extendObservable(this, {
       apps: [],
-      displayAppsMap: {},
+      displayApps: {},
       // computed
-      get sortedLocal() {
-        return this.apps.filter(({ type }) => type === 'local');
-      },
-      get sortedBuiltin() {
-        return this.apps.filter(({ type }) => type === 'builtin');
-      },
-      get sortedNetwork() {
-        return this.apps.filter(({ type }) => type === 'network');
-      },
-      get displayApps() {
-        return this.apps.filter(({ id }) => this.displayAppsMap[id]);
+      get visibleApps() {
+        return this.apps.filter(
+          ({ id }) => this.displayApps[id] && this.displayApps[id].visible
+        );
       }
     });
 
@@ -46,18 +39,26 @@ export default class Store {
     this.apps = apps;
   });
 
-  setdisplayAppsMap = action(displayAppsMap => {
-    this.displayAppsMap = displayAppsMap;
+  setdisplayApps = action(displayApps => {
+    this.displayApps = displayApps;
   });
 
   hideApp = action(appId => {
-    this.displayAppsMap = { ...this.displayAppsMap, [appId]: false };
-    this._api.shell.setAppVisibility(appId, false);
+    this._api.shell.setAppVisibility(appId, false).then(() => {
+      this.displayApps = {
+        ...this.displayApps,
+        [appId]: { visible: false }
+      };
+    });
   });
 
   showApp = action(appId => {
-    this.displayAppsMap = { ...this.displayAppsMap, [appId]: true };
-    this._api.shell.setAppVisibility(appId, true);
+    this._api.shell.setAppVisibility(appId, true).then(() => {
+      this.displayApps = {
+        ...this.displayApps,
+        [appId]: { visible: true }
+      };
+    });
   });
 
   loadApps() {
@@ -66,9 +67,9 @@ export default class Store {
       this._api.shell.getApps(false)
     ]).then(([all, displayed]) => {
       if (displayed) {
-        this.setdisplayAppsMap(
+        this.setdisplayApps(
           displayed.reduce((result, { id }) => {
-            result[id] = true;
+            result[id] = { visible: true };
             return result;
           }, {})
         );
