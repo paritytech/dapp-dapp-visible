@@ -18,12 +18,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'semantic-ui-react/dist/commonjs/views/Card';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
-import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import DappIcon from '@parity/ui/lib/DappIcon';
 import { FormattedMessage } from 'react-intl';
 
-// import DappVouchFor from './DappVouchFor';
+import DappVouchFor from './DappVouchFor';
 import styles from './DappCard.css';
 
 class DappCard extends PureComponent {
@@ -74,7 +73,7 @@ class DappCard extends PureComponent {
                 />
               </Label>
             )}
-            {/* <DappVouchFor dapp={dapp} /> */}
+            <DappVouchFor dapp={dapp} />
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
@@ -91,14 +90,28 @@ class DappCard extends PureComponent {
             onClick={this.handleOpen}
           />
           {visible ? (
-            <Button basic primary disabled>
-              <Icon name="check" />Added
-            </Button>
+            <Button
+              basic
+              primary
+              disabled
+              icon="check"
+              content={
+                <FormattedMessage
+                  id="dapp.visible.addedDapp"
+                  defaultMessage="Added"
+                />
+              }
+            />
           ) : (
             <Button
               primary
               basic
-              content="Add to home"
+              content={
+                <FormattedMessage
+                  id="dapp.visible.addDapp"
+                  defaultMessage="Add to home"
+                />
+              }
               icon="plus"
               onClick={this.handleAdd}
             />
