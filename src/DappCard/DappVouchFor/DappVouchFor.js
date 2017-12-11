@@ -20,7 +20,8 @@ import PropTypes from 'prop-types';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import IdentityIcon from '@parity/ui/lib/IdentityIcon/identityIcon.js';
-import VoucherStore from '@parity/ui/lib/DappVouchFor/store';
+// import VoucherStore from '@parity/ui/lib/DappVouchFor/store'; // FIXME: Not working. Just try commenting this line and uncommenting the next one. -Amaury
+import VoucherStore from './store';
 import { FormattedMessage } from 'react-intl';
 
 import styles from './DappVouchFor.css';
@@ -40,7 +41,6 @@ class DappVouchFor extends Component {
 
   render() {
     const count = this.voucherStore.vouchers.length;
-
     if (!count) return null;
 
     return (
