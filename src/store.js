@@ -39,7 +39,7 @@ export default class Store {
     this.apps = apps;
   });
 
-  setdisplayApps = action(displayApps => {
+  setDisplayApps = action(displayApps => {
     this.displayApps = displayApps;
   });
 
@@ -71,7 +71,7 @@ export default class Store {
       this._api.shell.getApps(false)
     ]).then(([all, displayed]) => {
       if (displayed) {
-        this.setdisplayApps(
+        this.setDisplayApps(
           displayed.reduce((result, { id }) => {
             result[id] = { visible: true };
             return result;

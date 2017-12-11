@@ -14,7 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Card from 'semantic-ui-react/dist/commonjs/views/Card';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
@@ -25,7 +26,7 @@ import { FormattedMessage } from 'react-intl';
 import DappVouchFor from './DappVouchFor';
 import styles from './DappCard.css';
 
-class DappCard extends PureComponent {
+class DappCard extends Component {
   static propTypes = {
     dapp: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -123,4 +124,4 @@ class DappCard extends PureComponent {
   }
 }
 
-export default DappCard;
+export default observer(DappCard);

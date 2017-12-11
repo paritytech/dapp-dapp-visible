@@ -1,78 +1,213 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
+exports[`should render correctly when we display all apps 1`] = `
 <Page
   title={
     <FormattedMessage
-      defaultMessage="Visible Dapps"
+      defaultMessage="Browse Dapps"
       id="dapps.visible.title"
       values={Object {}}
     />
   }
 >
-  <div>
-    <Header
-      as="h4"
-    >
-      <FormattedMessage
-        defaultMessage="Applications locally available"
-        id="dapps.visible.local.sectionTitle"
-        values={Object {}}
-      />
-    </Header>
+  <Grid>
+    <GridRow>
+      <GridColumn
+        width={4}
+      >
+        <Menu
+          pointing={true}
+          secondary={true}
+          vertical={true}
+        >
+          <MenuItem
+            active={true}
+            name="ALL_DAPPS"
+            onClick={[Function]}
+          >
+            <FormattedMessage
+              defaultMessage="All Dapps"
+              id="dapps.visible.allDapps"
+              values={Object {}}
+            />
+          </MenuItem>
+          <MenuItem
+            active={false}
+            name="MY_DAPPS"
+            onClick={[Function]}
+          >
+            <FormattedMessage
+              defaultMessage="My Dapps"
+              id="dapps.visible.myDapps"
+              values={Object {}}
+            />
+            <Label>
+              1
+            </Label>
+          </MenuItem>
+        </Menu>
+      </GridColumn>
+      <GridColumn
+        width={12}
+      >
+        <div>
+          <Header
+            as="h4"
+          >
+            <FormattedMessage
+              defaultMessage="All available Dapps"
+              id="dapps.visible.local.sectionTitleAllDapps"
+              values={Object {}}
+            />
+          </Header>
+          <FormattedMessage
+            defaultMessage="Here are all available dapps for your Parity Client. You can add them on your homepage or try them out here."
+            id="dapps.visible.local.sectionSubtitleAllDapps"
+            values={Object {}}
+          />
+          <br />
+          <Input
+            fluid={true}
+            icon="search"
+            iconPosition="left"
+            onChange={[Function]}
+            placeholder="Search for dapps by name, description..."
+            type="text"
+          />
+          <CardGroup
+            stackable={true}
+          >
+            <DappCard
+              dapp={
+                Object {
+                  "description": "",
+                  "id": "123",
+                  "name": "123",
+                }
+              }
+              key="0"
+              onAdd={[Function]}
+              onOpen={[Function]}
+              onRemove={[Function]}
+              visible={false}
+            />
+            <DappCard
+              dapp={
+                Object {
+                  "description": "",
+                  "id": "456",
+                  "name": "456",
+                }
+              }
+              key="1"
+              onAdd={[Function]}
+              onOpen={[Function]}
+              onRemove={[Function]}
+              visible={true}
+            />
+          </CardGroup>
+        </div>
+      </GridColumn>
+    </GridRow>
+  </Grid>
+</Page>
+`;
+
+exports[`should render correctly when we display my apps 1`] = `
+<Page
+  title={
     <FormattedMessage
-      defaultMessage="All applications installed locally on the machine by the user for access by the Parity client."
-      id="dapps.visible.local.sectionSubtitle"
+      defaultMessage="Browse Dapps"
+      id="dapps.visible.title"
       values={Object {}}
     />
-    <CardGroup
-      stackable={true}
-    >
-      <DappCard
-        dapp={
-          Object {
-            "id": "123",
-            "name": "123",
-            "type": "local",
-          }
-        }
-        key="0"
-        onClick={[Function]}
-        visible={false}
-      />
-    </CardGroup>
-  </div>
-  <div>
-    <Header
-      as="h4"
-    >
-      <FormattedMessage
-        defaultMessage="Applications on the global network"
-        id="dapps.visible.network.sectionTitle"
-        values={Object {}}
-      />
-    </Header>
-    <FormattedMessage
-      defaultMessage="These applications are not affiliated with Parity nor are they published by Parity. Each remain under the control of their respective authors. Please ensure that you understand the goals for each application before interacting."
-      id="dapps.visible.network.sectionSubtitle"
-      values={Object {}}
-    />
-    <CardGroup
-      stackable={true}
-    >
-      <DappCard
-        dapp={
-          Object {
-            "id": "456",
-            "name": "456",
-            "type": "network",
-          }
-        }
-        key="0"
-        onClick={[Function]}
-        visible={true}
-      />
-    </CardGroup>
-  </div>
+  }
+>
+  <Grid>
+    <GridRow>
+      <GridColumn
+        width={4}
+      >
+        <Menu
+          pointing={true}
+          secondary={true}
+          vertical={true}
+        >
+          <MenuItem
+            active={false}
+            name="ALL_DAPPS"
+            onClick={[Function]}
+          >
+            <FormattedMessage
+              defaultMessage="All Dapps"
+              id="dapps.visible.allDapps"
+              values={Object {}}
+            />
+          </MenuItem>
+          <MenuItem
+            active={true}
+            name="MY_DAPPS"
+            onClick={[Function]}
+          >
+            <FormattedMessage
+              defaultMessage="My Dapps"
+              id="dapps.visible.myDapps"
+              values={Object {}}
+            />
+            <Label>
+              1
+            </Label>
+          </MenuItem>
+        </Menu>
+      </GridColumn>
+      <GridColumn
+        width={12}
+      >
+        <div>
+          <Header
+            as="h4"
+          >
+            <FormattedMessage
+              defaultMessage="My Applications"
+              id="dapps.visible.local.sectionTitleMyDapps"
+              values={Object {}}
+            />
+          </Header>
+          <FormattedMessage
+            defaultMessage="The dapps here are added on your homepage for quick access."
+            id="dapps.visible.local.sectionSubtitleMyDapps"
+            values={Object {}}
+          />
+          <br />
+          <Input
+            fluid={true}
+            icon="search"
+            iconPosition="left"
+            onChange={[Function]}
+            placeholder="Search for dapps by name, description..."
+            type="text"
+          />
+          <CardGroup
+            stackable={true}
+          >
+            <DappCard
+              dapp={
+                Object {
+                  "description": "",
+                  "id": "456",
+                  "name": "456",
+                }
+              }
+              key="0"
+              onAdd={[Function]}
+              onOpen={[Function]}
+              onRemove={[Function]}
+              visible={true}
+            />
+          </CardGroup>
+        </div>
+      </GridColumn>
+    </GridRow>
+  </Grid>
 </Page>
 `;

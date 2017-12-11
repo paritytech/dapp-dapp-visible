@@ -54,14 +54,6 @@ class App extends Component {
 
   handleSearch = (_, { value }) => this.setState({ value });
 
-  handleToggleVisibility = dappId => {
-    if (this.dappsStore.displayApps[dappId]) {
-      this.dappsStore.hideApp(dappId);
-    } else {
-      this.dappsStore.showApp(dappId);
-    }
-  };
-
   renderList = (title, subtitle, items) => {
     const { intl: { formatMessage } } = this.props;
     return (
@@ -128,14 +120,20 @@ class App extends Component {
                   active={this.state.menu === ALL_DAPPS}
                   onClick={this.handleMenuClick}
                 >
-                  All Dapps
+                  <FormattedMessage
+                    id="dapps.visible.allDapps"
+                    defaultMessage="All Dapps"
+                  />
                 </Menu.Item>
                 <Menu.Item
                   name={MY_DAPPS}
                   active={this.state.menu === MY_DAPPS}
                   onClick={this.handleMenuClick}
                 >
-                  My Dapps
+                  <FormattedMessage
+                    id="dapps.visible.myDapps"
+                    defaultMessage="My Dapps"
+                  />
                   <Label>{this.dappsStore.visibleApps.length}</Label>
                 </Menu.Item>
               </Menu>
@@ -171,5 +169,7 @@ class App extends Component {
     );
   }
 }
+
+export { App }; // Export dumb component for testing
 
 export default injectIntl(observer(App));

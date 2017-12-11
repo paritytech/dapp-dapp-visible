@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly with 0 vouch 1`] = `""`;
+
+exports[`should render correctly with 1 vouch 1`] = `
+<Popup
+  content={
+    <div>
+      <IdentityIcon
+        address="123"
+        className={undefined}
+        tiny={true}
+      />
+      <FormattedMessage
+        defaultMessage="vouched for this app"
+        id="dapp.visible.vouchedBy"
+        values={Object {}}
+      />
+    </div>
+  }
+  on="hover"
+  position="top left"
+  trigger={
+    <Label>
+      <FormattedMessage
+        defaultMessage="{count} vouch{plural}"
+        id="dapp.visible.vouchedByCount"
+        values={
+          Object {
+            "count": 1,
+            "plural": "",
+          }
+        }
+      />
+    </Label>
+  }
+  wide={true}
+/>
+`;
+
+exports[`should render correctly with 2 vouch 1`] = `
+<Popup
+  content={
+    <div>
+      <IdentityIcon
+        address="123"
+        className={undefined}
+        tiny={true}
+      />
+      <IdentityIcon
+        address="456"
+        className={undefined}
+        tiny={true}
+      />
+      <FormattedMessage
+        defaultMessage="vouched for this app"
+        id="dapp.visible.vouchedBy"
+        values={Object {}}
+      />
+    </div>
+  }
+  on="hover"
+  position="top left"
+  trigger={
+    <Label>
+      <FormattedMessage
+        defaultMessage="{count} vouch{plural}"
+        id="dapp.visible.vouchedByCount"
+        values={
+          Object {
+            "count": 2,
+            "plural": "es",
+          }
+        }
+      />
+    </Label>
+  }
+  wide={true}
+/>
+`;
