@@ -1,7 +1,7 @@
 {
   "id": "dapp-dapp-visible",
-  "name": "Dapp Visibility",
-  "description": "Allow customising the display of the list of applications",
+  "name": "Browse Dapps",
+  "description": "Allow browsing through all the available dapps",
   "author": "Parity Team <admin@parity.io>",
   "version": "VERSION",
   "iconUrl": "icon.png",

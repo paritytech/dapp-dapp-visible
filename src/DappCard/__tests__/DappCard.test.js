@@ -16,6 +16,7 @@
 
 import React from 'react';
 import { shallowToJson } from 'enzyme-to-json';
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
 import { shallowWithIntl } from '../../setupTests';
 import DappCard from '../DappCard';
@@ -27,26 +28,73 @@ const props = {
     name: 'Test'
   },
   visible: false,
-  onClick: () => {}
+  onAdd: () => {},
+  onOpen: () => {},
+  onRemove: () => {}
 };
 
-test('should render correctly in when visible', () => {
+test('should render correctly when visible', () => {
   const component = shallowWithIntl(<DappCard {...props} />);
 
   expect(shallowToJson(component)).toMatchSnapshot();
 });
 
-test('should render correctly in when hidden', () => {
+test('should render correctly when hidden', () => {
   const component = shallowWithIntl(<DappCard {...props} visible />);
 
   expect(shallowToJson(component)).toMatchSnapshot();
 });
 
-test('should handle onClick on card click', () => {
-  const onClick = jest.fn();
+test('should render correctly a local dapp', () => {
+  const component = shallowWithIntl(
+    <DappCard {...props} dapp={{ ...props.dapp, type: 'local' }} />
+  );
 
-  const component = shallowWithIntl(<DappCard {...props} onClick={onClick} />);
+  expect(shallowToJson(component)).toMatchSnapshot();
+});
 
-  component.simulate('click');
-  expect(onClick).toHaveBeenCalled();
+test('should render correctly a builtin dapp', () => {
+  const component = shallowWithIntl(
+    <DappCard {...props} dapp={{ ...props.dapp, type: 'builtin' }} />
+  );
+
+  expect(shallowToJson(component)).toMatchSnapshot();
+});
+
+test('should handle onOpen on Open button click', () => {
+  const onOpen = jest.fn();
+
+  const component = shallowWithIntl(<DappCard {...props} onOpen={onOpen} />);
+
+  component
+    .find(Button)
+    .first()
+    .simulate('click');
+  expect(onOpen).toHaveBeenCalledWith('123');
+});
+
+test('should handle onAdd on Add To Home button click', () => {
+  const onAdd = jest.fn();
+
+  const component = shallowWithIntl(<DappCard {...props} onAdd={onAdd} />);
+
+  component
+    .find(Button)
+    .at(1)
+    .simulate('click');
+  expect(onAdd).toHaveBeenCalledWith('123');
+});
+
+test('should handle onRemove on Remove button click', () => {
+  const onRemove = jest.fn();
+
+  const component = shallowWithIntl(
+    <DappCard {...props} onRemove={onRemove} visible />
+  );
+
+  component
+    .find(Button)
+    .last()
+    .simulate('click');
+  expect(onRemove).toHaveBeenCalledWith('123');
 });

@@ -14,22 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import ReactDOM from 'react-dom';
-import React from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import ContextProvider from '@parity/ui/lib/ContextProvider';
+import DappVouchFor from './DappVouchFor';
 
-import api from './api';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-import 'semantic-ui-css/semantic.min.css';
-
-injectTapEventPlugin();
-registerServiceWorker();
-
-ReactDOM.render(
-  <ContextProvider api={api}>
-    <App />
-  </ContextProvider>,
-  document.querySelector('#root')
-);
+export default DappVouchFor;

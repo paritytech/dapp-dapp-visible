@@ -25,14 +25,10 @@ export default class Store {
       apps: [],
       displayApps: {},
       // computed
-      get sortedLocal() {
-        return this.apps.filter(({ type }) => type === 'local');
-      },
-      get sortedBuiltin() {
-        return this.apps.filter(({ type }) => type === 'builtin');
-      },
-      get sortedNetwork() {
-        return this.apps.filter(({ type }) => type === 'network');
+      get visibleApps() {
+        return this.apps.filter(
+          ({ id }) => this.displayApps[id] && this.displayApps[id].visible
+        );
       }
     });
 
@@ -48,14 +44,26 @@ export default class Store {
   });
 
   hideApp = action(appId => {
-    this.displayApps = { ...this.displayApps, [appId]: false };
-    this._api.shell.setAppVisibility(appId, false);
+    this._api.shell.setAppVisibility(appId, false).then(() => {
+      this.displayApps = {
+        ...this.displayApps,
+        [appId]: { visible: false }
+      };
+    });
   });
 
   showApp = action(appId => {
-    this.displayApps = { ...this.displayApps, [appId]: true };
-    this._api.shell.setAppVisibility(appId, true);
+    this._api.shell.setAppVisibility(appId, true).then(() => {
+      this.displayApps = {
+        ...this.displayApps,
+        [appId]: { visible: true }
+      };
+    });
   });
+
+  loadApp = appId => {
+    this._api.shell.loadApp(appId);
+  };
 
   loadApps() {
     return Promise.all([
@@ -65,7 +73,7 @@ export default class Store {
       if (displayed) {
         this.setDisplayApps(
           displayed.reduce((result, { id }) => {
-            result[id] = true;
+            result[id] = { visible: true };
             return result;
           }, {})
         );

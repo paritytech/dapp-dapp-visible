@@ -15,19 +15,7 @@
 /* along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-:local(.picture) {
-  display: block !important;
-  clear: right;
-  height: 60px;
-  width: 60px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-:local(.hidden) {
-  opacity: 0.3;
-}
-
-:local(.hidden) .content {
-  margin-top: -28px !important;
+:local(.vouchAvatar) {
+  margin-top: 3px;
+  margin-right: 3px;
 }

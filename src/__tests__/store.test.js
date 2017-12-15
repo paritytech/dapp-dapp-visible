@@ -24,7 +24,8 @@ const mockApps = [
 const mockApi = {
   shell: {
     getApps: () => Promise.resolve(),
-    setAppVisibility: () => {}
+    setAppVisibility: () => Promise.resolve(),
+    loadApp: () => Promise.resolve()
   }
 };
 
@@ -41,7 +42,7 @@ test('should correctly loadApps', () => {
     expect(store.apps).toContainEqual(mockApps[0]);
     expect(store.apps).toContainEqual(mockApps[1]);
     expect(store.apps).toContainEqual(mockApps[2]);
-    expect(store.displayApps).toEqual({ '123': true });
+    expect(store.displayApps).toEqual({ '123': { visible: true } });
   });
 });
 
@@ -52,49 +53,42 @@ test('should handle setApps', () => {
   expect(store.apps).toHaveLength(3);
 });
 
-test('should handle setDisplayApps', () => {
-  const store = new Store(mockApi);
-  store.setDisplayApps({ '123': true });
+test('should handle loadApp', () => {
+  const loadApp = jest.fn(() => Promise.resolve());
+  const store = new Store({ shell: { ...mockApi.shell, loadApp } });
+  store.loadApp('123');
 
-  expect(store.displayApps).toEqual({ '123': true });
+  expect(loadApp).toHaveBeenCalledWith('123');
+});
+
+test('should handle loadApp', () => {
+  const store = new Store(mockApi);
+  store.setDisplayApps({ '123': { visible: true } });
+
+  expect(store.displayApps).toEqual({ '123': { visible: true } });
 });
 
 test('should handle showApp and call setAppVisibility', () => {
-  const setAppVisibility = jest.fn();
+  const setAppVisibility = jest.fn(() => Promise.resolve());
   const store = new Store({ shell: { ...mockApi.shell, setAppVisibility } });
   store.showApp('123');
 
-  expect(store.displayApps['123']).toBe(true);
   expect(setAppVisibility).toHaveBeenCalledWith('123', true);
 });
 
 test('should handle hideApp and call setAppVisibility', () => {
-  const setAppVisibility = jest.fn();
+  const setAppVisibility = jest.fn(() => Promise.resolve());
   const store = new Store({ shell: { ...mockApi.shell, setAppVisibility } });
   store.showApp('123');
   store.hideApp('123');
 
-  expect(store.displayApps['123']).toBe(false);
   expect(setAppVisibility).toHaveBeenLastCalledWith('123', false);
 });
 
-test('should handle get sortedLocal', () => {
+test('should handle get visibleApps', () => {
   const store = new Store(mockApi);
   store.setApps(mockApps);
+  store.setDisplayApps({ '123': { visible: true } });
 
-  expect(store.sortedLocal).toContainEqual(mockApps[0]);
-});
-
-test('should handle get sortedBuiltin', () => {
-  const store = new Store(mockApi);
-  store.setApps(mockApps);
-
-  expect(store.sortedBuiltin).toContainEqual(mockApps[1]);
-});
-
-test('should handle get sortedNetwork', () => {
-  const store = new Store(mockApi);
-  store.setApps(mockApps);
-
-  expect(store.sortedNetwork).toContainEqual(mockApps[2]);
+  expect(store.visibleApps).toContainEqual(mockApps[0]);
 });

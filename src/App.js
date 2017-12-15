@@ -14,101 +14,162 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import { observer } from 'mobx-react';
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
-import Card from 'semantic-ui-react/dist/commonjs/views/Card';
+import Page from '@parity/ui/lib/Page';
+import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid';
+import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
+import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
+import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
+import Card from 'semantic-ui-react/dist/commonjs/views/Card';
 
 import DappCard from './DappCard';
+import DappsStore from './store';
 import styles from './App.css';
 
+const ALL_DAPPS = 'ALL_DAPPS';
+const MY_DAPPS = 'MY_DAPPS';
+
 class App extends Component {
-  handleToggleVisibility = dappId => {
-    const { store } = this.props;
-    if (store.displayApps[dappId]) {
-      store.hideApp(dappId);
-    } else {
-      store.showApp(dappId);
-    }
+  static contextTypes = {
+    api: PropTypes.object.isRequired
   };
 
-  renderList = (title, subtitle, items) => {
-    const { store } = this.props;
-    if (!items || !items.length) {
-      return null;
-    }
+  static propTypes = {
+    intl: intlShape
+  };
 
+  state = {
+    menu: ALL_DAPPS, // or MY_DAPPS
+    value: ''
+  };
+
+  dappsStore = new DappsStore(this.context.api);
+
+  handleMenuClick = (_, { name }) => this.setState({ menu: name });
+
+  handleSearch = (_, { value }) => this.setState({ value });
+
+  renderList = (title, subtitle, items) => {
+    const { intl: { formatMessage } } = this.props;
     return (
-      <div className={styles.sectionList}>
+      <div>
         <Header as="h4">{title}</Header>
         {subtitle}
-        <Card.Group stackable className={styles.cardGroup}>
-          {items.map((dapp, index) => (
-            <DappCard
-              key={index}
-              dapp={dapp}
-              visible={store.displayApps[dapp.id]}
-              onClick={() => this.handleToggleVisibility(dapp.id)}
-            />
-          ))}
-        </Card.Group>
+        <br />
+        <Input
+          fluid
+          iconPosition="left"
+          icon="search"
+          placeholder={formatMessage({
+            id: 'dapps.visible.search',
+            defaultMessage: 'Search for dapps by name, description...'
+          })}
+          className={styles.search}
+          onChange={this.handleSearch}
+        />
+        {items && (
+          <Card.Group stackable className={styles.cardGroup}>
+            {items
+              .filter(
+                ({ name, description }) =>
+                  this.state.value
+                    ? name.includes(this.state.value) ||
+                      description.includes(this.state.value)
+                    : true
+              )
+              .map((dapp, index) => (
+                <DappCard
+                  key={index}
+                  dapp={dapp}
+                  visible={
+                    this.dappsStore.displayApps[dapp.id] &&
+                    this.dappsStore.displayApps[dapp.id].visible
+                  }
+                  onAdd={this.dappsStore.showApp}
+                  onRemove={this.dappsStore.hideApp}
+                  onOpen={this.dappsStore.loadApp}
+                />
+              ))}
+          </Card.Group>
+        )}
       </div>
     );
   };
 
   render() {
-    const { store } = this.props;
     return (
-      <div className={styles.layout}>
-        <h3>
+      <Page
+        title={
           <FormattedMessage
             id="dapps.visible.title"
-            defaultMessage="Visible Dapps"
+            defaultMessage="Browse Dapps"
           />
-        </h3>
-        {this.renderList(
-          <FormattedMessage
-            id="dapps.visible.local.sectionTitle"
-            defaultMessage="Applications locally available"
-          />,
-          <FormattedMessage
-            id="dapps.visible.local.sectionSubtitle"
-            defaultMessage="All applications installed locally on the machine by the user for access by the Parity client."
-          />,
-          store.sortedLocal
-        )}
-        {this.renderList(
-          <FormattedMessage
-            id="dapps.visible.builtin.sectionTitle"
-            defaultMessage="Applications bundled with Parity"
-          />,
-          <FormattedMessage
-            id="dapps.visible.builtin.sectionSubtitle"
-            defaultMessage="Experimental applications developed by the Parity team to show off dapp capabilities, integration, experimental features and to control certain network-wide client behaviour."
-          />,
-          store.sortedBuiltin
-        )}
-        {this.renderList(
-          <FormattedMessage
-            id="dapps.visible.network.sectionTitle"
-            defaultMessage="Applications on the global network"
-          />,
-          <FormattedMessage
-            id="dapps.visible.network.sectionSubtitle"
-            defaultMessage="These applications are not affiliated with Parity nor are they published by Parity. Each remain under the control of their respective authors. Please ensure that you understand the goals for each application before interacting."
-          />,
-          store.sortedNetwork
-        )}
-      </div>
+        }
+      >
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={4}>
+              <Menu pointing secondary vertical>
+                <Menu.Item
+                  name={ALL_DAPPS}
+                  active={this.state.menu === ALL_DAPPS}
+                  onClick={this.handleMenuClick}
+                >
+                  <FormattedMessage
+                    id="dapps.visible.allDapps"
+                    defaultMessage="All Dapps"
+                  />
+                </Menu.Item>
+                <Menu.Item
+                  name={MY_DAPPS}
+                  active={this.state.menu === MY_DAPPS}
+                  onClick={this.handleMenuClick}
+                >
+                  <FormattedMessage
+                    id="dapps.visible.myDapps"
+                    defaultMessage="My Dapps"
+                  />
+                  <Label>{this.dappsStore.visibleApps.length}</Label>
+                </Menu.Item>
+              </Menu>
+            </Grid.Column>
+            <Grid.Column width={12}>
+              {this.state.menu === ALL_DAPPS
+                ? this.renderList(
+                    <FormattedMessage
+                      id="dapps.visible.local.sectionTitleAllDapps"
+                      defaultMessage="All available Dapps"
+                    />,
+                    <FormattedMessage
+                      id="dapps.visible.local.sectionSubtitleAllDapps"
+                      defaultMessage="Here are all available dapps for your Parity Client. You can add them on your homepage or try them out here."
+                    />,
+                    this.dappsStore.apps
+                  )
+                : this.renderList(
+                    <FormattedMessage
+                      id="dapps.visible.local.sectionTitleMyDapps"
+                      defaultMessage="My Applications"
+                    />,
+                    <FormattedMessage
+                      id="dapps.visible.local.sectionSubtitleMyDapps"
+                      defaultMessage="The dapps here are added on your homepage for quick access."
+                    />,
+                    this.dappsStore.visibleApps
+                  )}
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Page>
     );
   }
 }
 
-export default observer(App);
+export { App }; // Export dumb component for testing
 
-App.propTypes = {
-  store: PropTypes.object.isRequired
-};
+export default injectIntl(observer(App));
