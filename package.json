@@ -23,8 +23,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
-      "!<rootDir>/node_modules/",
-      "!src/index.js",
+      "!src/**/index.js",
       "!src/registerServiceWorker.js",
       "!src/setupTests.js"
     ]
@@ -39,22 +38,22 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@parity/api": "^2.1.5",
-    "@parity/ui": "^3.0.15",
-    "mobx": "^3.3.2",
+    "@parity/api": "^2.1.14",
+    "@parity/mobx": "^1.0.5",
+    "@parity/ui": "^3.0.22",
+    "mobx": "^3.4.1",
     "mobx-react": "^4.3.5",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-intl": "^2.4.0",
     "react-scripts": "1.0.17",
-    "react-tap-event-plugin": "^3.0.2",
     "semantic-ui-css": "^2.2.12",
-    "semantic-ui-react": "^0.77.0"
+    "semantic-ui-react": "^0.77.1"
   },
   "devDependencies": {
-    "enzyme": "^3.2.0",
-    "enzyme-adapter-react-16": "^1.1.0",
-    "enzyme-to-json": "^3.2.2"
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.0"
   }
 }

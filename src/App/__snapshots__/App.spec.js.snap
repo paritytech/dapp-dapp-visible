@@ -85,7 +85,7 @@ exports[`should render correctly when we display all apps 1`] = `
                   "name": "123",
                 }
               }
-              key="0"
+              key="123-0"
               onAdd={[Function]}
               onOpen={[Function]}
               onRemove={[Function]}
@@ -99,7 +99,7 @@ exports[`should render correctly when we display all apps 1`] = `
                   "name": "456",
                 }
               }
-              key="1"
+              key="456-1"
               onAdd={[Function]}
               onOpen={[Function]}
               onRemove={[Function]}
@@ -198,7 +198,7 @@ exports[`should render correctly when we display my apps 1`] = `
                   "name": "456",
                 }
               }
-              key="0"
+              key="456-0"
               onAdd={[Function]}
               onOpen={[Function]}
               onRemove={[Function]}

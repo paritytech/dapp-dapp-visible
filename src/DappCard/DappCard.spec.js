@@ -18,8 +18,8 @@ import React from 'react';
 import { shallowToJson } from 'enzyme-to-json';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
-import { shallowWithIntl } from '../../setupTests';
-import DappCard from '../DappCard';
+import { shallowWithIntl } from '../setupTests';
+import DappCard from './DappCard';
 
 // Mock props
 const props = {

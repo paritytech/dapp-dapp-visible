@@ -14,14 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-test('should throw an error if no ethereumProvider', () => {
-  expect(() => {
-    require('../api');
-  }).toThrow('Unable to locate EthereumProvider, object not attached');
-});
+import App from './App';
 
-test('should return correct api if ethereumProvider is provided', () => {
-  global.ethereum = { send: () => {} };
-  const api = require('../api');
-  expect(api).toEqual({});
-});
+export default App;
