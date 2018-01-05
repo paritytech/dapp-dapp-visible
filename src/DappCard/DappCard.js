@@ -26,6 +26,9 @@ import { FormattedMessage } from 'react-intl';
 import DappVouchFor from './DappVouchFor';
 import styles from './DappCard.css';
 
+const DAPP_DAPP_VISIBLE_ID =
+  '0xa48bd8fd56c90c899135281967a6cf90865c221b46f27f9fbe2a236d74a64ea2'; // This dapp's id
+
 class DappCard extends Component {
   static propTypes = {
     dapp: PropTypes.shape({
@@ -117,7 +120,10 @@ class DappCard extends Component {
               onClick={this.handleAdd}
             />
           )}
-          {visible && <Button icon="trash" basic onClick={this.handleRemove} />}
+          {visible &&
+          dapp.id !== DAPP_DAPP_VISIBLE_ID && ( // Do not allow removing this dapp from homepage
+              <Button icon="trash" basic onClick={this.handleRemove} />
+            )}
         </Card.Content>
       </Card>
     );
