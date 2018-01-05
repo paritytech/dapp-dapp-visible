@@ -17,13 +17,13 @@
 import React from 'react';
 import { shallowToJson } from 'enzyme-to-json';
 // import VoucherStore from '@parity/ui/lib/DappVouchFor/store';
-import VoucherStore from '../store';
+import VoucherStore from './store';
 
-import { shallowWithIntl } from '../../../setupTests';
-import DappVouchFor from '../DappVouchFor';
+import { shallowWithIntl } from '../../setupTests';
+import DappVouchFor from './DappVouchFor';
 
 // Mock voucherStore
-jest.mock('../store');
+jest.mock('./store');
 
 // Mock props
 const props = {

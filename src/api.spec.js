@@ -14,19 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import ReactDOM from 'react-dom';
-import React from 'react';
-import ContextProvider from '@parity/ui/lib/ContextProvider';
+test('should throw an error if no ethereumProvider', () => {
+  expect(() => {
+    require('./api');
+  }).toThrow('Unable to locate EthereumProvider, object not attached');
+});
 
-import api from './api';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-import 'semantic-ui-css/semantic.min.css';
-
-ReactDOM.render(
-  <ContextProvider api={api}>
-    <App />
-  </ContextProvider>,
-  document.querySelector('#root')
-);
-registerServiceWorker();
+test('should return correct api if ethereumProvider is provided', () => {
+  global.ethereum = { send: () => {} };
+  const api = require('./api');
+  expect(api).toEqual({});
+});

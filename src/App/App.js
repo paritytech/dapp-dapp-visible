@@ -27,14 +27,14 @@ import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import Card from 'semantic-ui-react/dist/commonjs/views/Card';
 
-import DappCard from './DappCard';
+import DappCard from '../DappCard';
 import DappsStore from './store';
 import styles from './App.css';
 
 const ALL_DAPPS = 'ALL_DAPPS';
 const MY_DAPPS = 'MY_DAPPS';
 
-class App extends Component {
+export class App extends Component {
   static contextTypes = {
     api: PropTypes.object.isRequired
   };
@@ -84,7 +84,7 @@ class App extends Component {
               )
               .map((dapp, index) => (
                 <DappCard
-                  key={index}
+                  key={`${dapp.id}-${index}`}
                   dapp={dapp}
                   visible={
                     this.dappsStore.displayApps[dapp.id] &&
@@ -169,7 +169,5 @@ class App extends Component {
     );
   }
 }
-
-export { App }; // Export dumb component for testing
 
 export default injectIntl(observer(App));

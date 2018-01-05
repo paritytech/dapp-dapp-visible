@@ -21,10 +21,10 @@ import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
 import { shallowWithIntl } from '../setupTests';
 import DappCard from '../DappCard';
-import DappsStore from '../store';
-import { App } from '../App';
+import DappsStore from './store';
+import { App } from './App';
 
-jest.mock('../store');
+jest.mock('./store');
 const mockStore = {
   apps: [
     { id: '123', name: '123', description: '' },
