@@ -65,7 +65,7 @@ exports[`should render correctly a builtin dapp 1`] = `
           values={Object {}}
         />
       }
-      icon="plus"
+      icon="toggle off"
       onClick={[Function]}
       primary={true}
     />
@@ -138,7 +138,7 @@ exports[`should render correctly a local dapp 1`] = `
           values={Object {}}
         />
       }
-      icon="plus"
+      icon="toggle off"
       onClick={[Function]}
       primary={true}
     />
@@ -194,23 +194,17 @@ exports[`should render correctly when hidden 1`] = `
     />
     <Button
       as="button"
-      basic={true}
       content={
         <FormattedMessage
-          defaultMessage="Added"
+          defaultMessage="Added to home"
           id="dapp.visible.addedDapp"
           values={Object {}}
         />
       }
-      disabled={true}
-      icon="check"
-      primary={true}
-    />
-    <Button
-      as="button"
-      basic={true}
-      icon="trash"
+      disabled={false}
+      icon="toggle on"
       onClick={[Function]}
+      primary={true}
     />
   </CardContent>
 </Card>
@@ -272,7 +266,7 @@ exports[`should render correctly when visible 1`] = `
           values={Object {}}
         />
       }
-      icon="plus"
+      icon="toggle off"
       onClick={[Function]}
       primary={true}
     />
