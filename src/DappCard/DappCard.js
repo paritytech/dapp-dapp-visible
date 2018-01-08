@@ -95,20 +95,19 @@ class DappCard extends Component {
           />
           {visible ? (
             <Button
-              basic
-              primary
-              disabled
-              icon="check"
               content={
                 <FormattedMessage
                   id="dapp.visible.addedDapp"
-                  defaultMessage="Added"
+                  defaultMessage="Added to home"
                 />
               }
+              disabled={dapp.id === DAPP_DAPP_VISIBLE_ID} // Do not allow removing this dapp from homepage
+              icon="toggle on"
+              onClick={this.handleRemove}
+              primary
             />
           ) : (
             <Button
-              primary
               basic
               content={
                 <FormattedMessage
@@ -116,14 +115,11 @@ class DappCard extends Component {
                   defaultMessage="Add to home"
                 />
               }
-              icon="plus"
+              icon="toggle off"
               onClick={this.handleAdd}
+              primary
             />
           )}
-          {visible &&
-          dapp.id !== DAPP_DAPP_VISIBLE_ID && ( // Do not allow removing this dapp from homepage
-              <Button icon="trash" basic onClick={this.handleRemove} />
-            )}
         </Card.Content>
       </Card>
     );
